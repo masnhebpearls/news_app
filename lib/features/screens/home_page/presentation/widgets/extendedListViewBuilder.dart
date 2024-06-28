@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
-
-import '../../../../../config/themes/styles.dart';
 import '../../models/news_model/news_model.dart';
 import 'news_card.dart';
 
@@ -70,9 +68,13 @@ class ExtendedListViewBuilderState extends State<ExtendedListViewBuilder> {
             },
           )
         : Center(
-            child: Text(
-              "No data",
-              style: tittleTextInBlogCard,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Image.asset('images/no_data.gif'),
+              ),
             ),
           );
   }

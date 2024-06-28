@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:news_app/features/screens/home_page/models/news_model/news_model.dart';
 import 'package:news_app/features/screens/home_page/presentation/widgets/snack_bar.dart';
-import '../../../../../config/themes/styles.dart';
 import '../bloc/news_bloc.dart';
 import 'news_card.dart';
 
@@ -38,7 +37,6 @@ class DismissibleExtendedListviewState
     // Perform the internet connectivity check and update state
     final hasInternet = await InternetConnection().hasInternetAccess;
     setState(() {
-      print("internet connection status is $hasInternet");
       hasInternetConnection = hasInternet;
     });
   }
@@ -84,10 +82,14 @@ class DismissibleExtendedListviewState
             },
           )
         : Center(
-            child: Text(
-              "No data",
-              style: tittleTextInBlogCard,
-            ),
-          );
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width*0.9,
+        height: MediaQuery.of(context).size.height*0.5,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: Image.asset('images/no_data.gif'),
+        ),
+      ),
+    );
   }
 }
