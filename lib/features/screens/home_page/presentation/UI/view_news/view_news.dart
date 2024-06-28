@@ -35,12 +35,12 @@ class DetailsPage extends StatelessWidget {
       appBar: AppBar(
         actions: [
           BlocConsumer<NewsBloc, NewsState>(
-            listener: (context, state) {
+            listener: (c, state) {
               if (state.runtimeType == NewsSaveState) {
-                showSnackBar("Saved Successfully", context);
+                showSnackBar("Saved Successfully", model, c, false);
               }
               if (state.runtimeType == NewsDeletedState) {
-                showSnackBar("Removed from saved", context);
+                showSnackBar("Removed from saved", model,c, true);
               }
               // TODO: implement listener
             },
