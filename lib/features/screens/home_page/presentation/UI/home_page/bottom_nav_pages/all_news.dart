@@ -2,12 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/themes/styles.dart';
-import 'package:news_app/features/screens/home_page/models/news_model/news_model.dart';
-import 'package:news_app/features/screens/home_page/presentation/UI/bottom_nav_pages/saved_news.dart';
 import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
-import 'package:news_app/features/screens/home_page/presentation/widgets/news_card.dart';
-
-import '../../widgets/extendedListViewBuilder.dart';
+import '../../../widgets/extendedListViewBuilder.dart';
 
 @RoutePage()
 class HomeAllNews extends StatefulWidget {
@@ -30,17 +26,22 @@ class _HomeAllNewsState extends State<HomeAllNews> {
           // TODO: implement listener
         },
         builder: (ctx, state) {
-          switch (state.runtimeType) {
-            case (const (NewsInitial)):
+          switch (state) {
+            case NewsLoadingErrorState():
+              return Container();
+
+            case NewsLoadingState():
               return const Center(
                 child: CircularProgressIndicator(),
               );
-            case (const (NewsLoadedState)):
-              return ExtendedListViewBuilder(model: (state as NewsLoadedState).news, isNewsView: true,);
+
+            case NewsLoadedState(news: var news):
+              return ExtendedListViewBuilder(model: news, isNewsView: true,);
 
             default:
-              return ExtendedListViewBuilder(model: (ctx.read<NewsBloc>().news), isNewsView: true,);
+              return ExtendedListViewBuilder(model: ctx.read<NewsBloc>().news, isNewsView: true,);
           }
+
         },
       ),
     );

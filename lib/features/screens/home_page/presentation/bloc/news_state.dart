@@ -4,6 +4,8 @@ sealed class NewsState {}
 
 final class NewsInitial extends NewsState {}
 
+class NewsLoadingState extends NewsState{}
+
 class NewsLoadedState extends NewsState {
   final List<NewsModel> news;
 

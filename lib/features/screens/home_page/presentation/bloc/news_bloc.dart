@@ -29,18 +29,20 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   }
 
   Future<void> apiRequestEvent(ApiRequestEvent event, Emitter<NewsState> emit) async {
+    emit(NewsLoadingState());
     try {
-      final response = await ApiMethods().getData() as Map<String, dynamic>;
+      final response = await ApiMethods().getData();
       for (var x in response['articles']) {
         try {
           news.add(NewsModel.fromJson(x));
         } catch (e) {
-          throw 'error';
+          // throw 'error';
         }
       }
       emit(NewsLoadedState(news: news));
     } catch (e) {
-      throw 'error';
+      emit(NewsLoadingErrorState());
+      // throw 'error';
     }
   }
 

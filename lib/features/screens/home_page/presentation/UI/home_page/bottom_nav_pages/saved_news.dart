@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/themes/styles.dart';
 import 'package:news_app/features/screens/home_page/models/news_model/news_model.dart';
 import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
-import '../../widgets/extendedListViewBuilder.dart';
+import 'package:news_app/features/screens/home_page/presentation/widgets/dismissible_extended_listview.dart';
+
+import '../../../widgets/extendedListViewBuilder.dart';
 
 @RoutePage()
 class LocalSavedNews extends StatefulWidget {
@@ -26,21 +28,18 @@ class _LocalSavedNewsState extends State<LocalSavedNews> {
         )),
       ),
       body: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
-        print('State is ${state.runtimeType}');
-        switch (state.runtimeType) {
-          case (const (NewsSaveState)):
-            final List<NewsModel> savedList =
-                (state as NewsSaveState).savedList;
-            return ExtendedListViewBuilder(model: savedList, isNewsView: false,);
-          case (const (NewsDeletedState)):
-            final List<NewsModel> savedList =
-                (state as NewsDeletedState).savedList;
-            return ExtendedListViewBuilder(model: savedList, isNewsView: false,);
+        switch (state) {
+          case NewsSaveState(savedList: var savedList):
+            return DismissibleExtendedListview(model: savedList, isNewsView: false,);
+
+          case NewsDeletedState(savedList: var savedList):
+            return DismissibleExtendedListview(model: savedList, isNewsView: false,);
+
           default:
-            final List<NewsModel> savedList =
-                context.read<NewsBloc>().hiveSavedNews;
-            return ExtendedListViewBuilder(model: savedList, isNewsView: false,);
+            final List<NewsModel> savedList = context.read<NewsBloc>().hiveSavedNews;
+            return DismissibleExtendedListview(model: savedList, isNewsView: false,);
         }
+
       }),
     );
   }
