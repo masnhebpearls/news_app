@@ -15,63 +15,66 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   final List<NewsModel> hiveSavedNews = [];
 
   NewsBloc() : super(NewsInitial()) {
+    on<InitializeEvent>(initializeEvent);
     on<ApiRequestEvent>(apiRequestEvent);
     on<SaveButtonPressedEvent>(saveNews);
     on<LoadSavedNewsEvent>(loadSavedNews);
     on<UnSaveNewsEvent>(unSaveNews);
   }
 
-  FutureOr<void> apiRequestEvent(
-      ApiRequestEvent event, Emitter<NewsState> emit) async {
+// Assuming that NewsModel, ApiMethods, and DatabaseMethods are defined elsewhere
+  Future<void> initializeEvent(InitializeEvent event, Emitter<NewsState> emit) async {
+    await loadSavedNews(LoadSavedNewsEvent(), emit);
+    await apiRequestEvent(ApiRequestEvent(), emit);
+  }
+
+  Future<void> apiRequestEvent(ApiRequestEvent event, Emitter<NewsState> emit) async {
     try {
       final response = await ApiMethods().getData() as Map<String, dynamic>;
       for (var x in response['articles']) {
         try {
           news.add(NewsModel.fromJson(x));
         } catch (e) {
+          throw 'error';
         }
       }
       emit(NewsLoadedState(news: news));
     } catch (e) {
+      throw 'error';
     }
   }
 
-  FutureOr<void> saveNews(
-      SaveButtonPressedEvent event, Emitter<NewsState> emit) {
+  Future<void> saveNews(SaveButtonPressedEvent event, Emitter<NewsState> emit) async {
     final variable = event.model.toJson();
     final encodedJson = jsonEncode(variable);
     DatabaseMethods().storeData(encodedJson, event.model.publishedAt);
-    loadSavedNews(LoadSavedNewsEvent(), emit);
+    hiveSavedNews.add(event.model);
+    emit(NewsSaveState(savedList: hiveSavedNews));
   }
 
-  FutureOr<void> loadSavedNews(LoadSavedNewsEvent event, Emitter<NewsState> emit) {
-    print('called');
-    try{
+  Future<void> loadSavedNews(LoadSavedNewsEvent event, Emitter<NewsState> emit) async {
+    try {
       final listOfSavedStrings = DatabaseMethods().getStoredData();
-      if (listOfSavedStrings.isNotEmpty){
-        for (var x in listOfSavedStrings){
+      if (listOfSavedStrings.isNotEmpty) {
+        for (var x in listOfSavedStrings) {
           final decodedJson = jsonDecode(x);
           NewsModel news = NewsModel.fromJson(decodedJson);
           hiveSavedNews.add(news);
         }
-        print("loaded state emmited");
         emit(SavedNewsLoadedState(savedNews: hiveSavedNews));
+      } else {
+        emit(NoNewsSavedState());
       }
-      else{
-        print("no news emmited");
-        emit(NONewsSavedState());
-      }
-    }catch(e){
-      print('error is $e');
+    } catch (e) {
+      emit(NoNewsSavedState());
     }
-
-
   }
 
   FutureOr<void> unSaveNews(UnSaveNewsEvent event, Emitter<NewsState> emit) {
     DatabaseMethods().deleteData(event.key);
-    hiveSavedNews.removeWhere((element)=> element.publishedAt== event.key);
+    hiveSavedNews.removeWhere((element) => element.publishedAt == event.key);
     emit(NewsDeletedState(savedList: hiveSavedNews));
-
   }
+
+
 }

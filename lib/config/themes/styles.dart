@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const backgroundColor = Color(0xfff9f5ef);
-
+const unSelectedNavBarColor = Color(0xffd7dadf);
+const selectedNavBarColor = Color(0xff663723);
 
 TextStyle tittleTextInBlogCard = GoogleFonts.lora(
     fontWeight: FontWeight.bold,
@@ -15,3 +16,8 @@ TextStyle textInBlogCard = GoogleFonts.lora(
   color: Colors.black,
 );
 
+TextStyle textInSnackBar = GoogleFonts.lora(
+  fontSize: 18,
+  color: Colors.black,
+  fontWeight: FontWeight.bold
+);

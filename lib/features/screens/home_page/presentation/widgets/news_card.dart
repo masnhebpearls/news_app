@@ -7,9 +7,15 @@ import 'package:news_app/features/screens/home_page/models/news_model/news_model
 import '../../../../../config/themes/styles.dart';
 
 class NewsCard extends StatefulWidget {
-  const NewsCard({super.key, required this.model, required this.isSavedView});
+  const NewsCard(
+      {super.key,
+      required this.model,
+      required this.isSavedView,
+      required this.isNewsView});
+
   final NewsModel model;
   final bool isSavedView;
+  final bool isNewsView;
 
   @override
   State<NewsCard> createState() => _NewsCardState();
@@ -38,12 +44,15 @@ class _NewsCardState extends State<NewsCard> {
         height * 0.0125,
       ),
       child: InkWell(
-        onTap: (){
-          AutoRouter.of(context).push(DetailsPageRoute(model: widget.model, isSavedView: widget.isSavedView));
+        onTap: () {
+          AutoRouter.of(context).push(DetailsPageRoute(
+              model: widget.model,
+              isSavedView: widget.isSavedView,
+              isNewsView: widget.isNewsView));
         },
         child: Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(width*0.075),
+            borderRadius: BorderRadius.circular(width * 0.075),
           ),
           elevation: 10,
           child: Container(
@@ -62,17 +71,13 @@ class _NewsCardState extends State<NewsCard> {
                     SizedBox(
                       height: height * 0.0075,
                     ),
-        
                     Padding(
                       padding: EdgeInsets.fromLTRB(
-                          width * 0.025,
-                          height*0.0075,
-                          0,
-                          0),
+                          width * 0.025, height * 0.0075, 0, 0),
                       child: SizedBox(
                         width: width * 0.45,
                         child: AutoSizeText(
-                          widget.model.title!,
+                          widget.model.title,
                           style: tittleTextInBlogCard,
                           maxFontSize: 20,
                           maxLines: 4,
@@ -100,16 +105,21 @@ class _NewsCardState extends State<NewsCard> {
                   padding: EdgeInsets.fromLTRB(
                       width * 0.025, height * 0.00075, width * 0, 0),
                   child: Hero(
-                    tag:!widget.isSavedView? widget.model.url: "saved ${widget.model.url}",
+                    tag: widget.isNewsView
+                        ? !widget.isSavedView
+                            ? '${widget.model.url} news'
+                            : "news saved ${widget.model.url}"
+                        : !widget.isSavedView
+                            ? '${widget.model.url} saved'
+                            : "saved saved ${widget.model.url}",
                     child: SizedBox(
                       width: width * 0.35,
                       height: height * 0.25,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(width*0.05),
+                        borderRadius: BorderRadius.circular(width * 0.05),
                         child: FittedBox(
                             fit: BoxFit.cover,
-                            child: Image.network(widget.model.urlToImage)
-                        ),
+                            child: Image.network(widget.model.urlToImage)),
                       ),
                     ),
                   ),

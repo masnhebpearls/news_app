@@ -1,9 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:news_app/config/routes/routes.dart';
-import 'package:news_app/features/screens/home_page/data/server_data/api_methods.dart';
-import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
+import '../../../../../config/themes/styles.dart';
 
 @RoutePage()
 class MainHomePage extends StatefulWidget {
@@ -21,13 +20,21 @@ class _MainHomePageState extends State<MainHomePage> {
         routes: const [HomeAllNewsRoute(), LocalSavedNewsRoute()],
         bottomNavigationBuilder: (context, tabs) {
           return BottomNavigationBar(
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            iconSize: 32,
+            elevation: 10,
+            selectedFontSize: 24,
+            unselectedFontSize: 18,
+            selectedItemColor: selectedNavBarColor,
+            unselectedItemColor: unSelectedNavBarColor,
             currentIndex: tabs.activeIndex,
             onTap: tabs.setActiveIndex,
             items: const [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: "home"),
+                  icon: Icon(FontAwesomeIcons.house), label: ""),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.save_alt), label: "save")
+                  icon: Icon(FontAwesomeIcons.solidHeart), label: "")
             ],
           );
         },

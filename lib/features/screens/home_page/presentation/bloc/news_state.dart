@@ -29,11 +29,12 @@ class NewsDeletedState extends NewsState{
   NewsDeletedState({required this.savedList});
 }
 
-class NONewsSavedState extends NewsState {}
+class NoNewsSavedState extends NewsState {}
 
-// class NewsSavedEvent extends NewsState {
-//   final List<NewsModel> savedList;
-//
-//   NewsSavedEvent({required this.savedList});
-//
-// }
+class NewsSaveState extends NewsState {
+  final List<NewsModel> savedList;
+
+  NewsSaveState({required this.savedList});
+
+
+}

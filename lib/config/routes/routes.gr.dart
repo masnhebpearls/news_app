@@ -20,8 +20,10 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: DetailsPage(
+          key: args.key,
           model: args.model,
           isSavedView: args.isSavedView,
+          isNewsView: args.isNewsView,
         ),
       );
     },
@@ -50,14 +52,18 @@ abstract class _$AppRouter extends RootStackRouter {
 /// [DetailsPage]
 class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
   DetailsPageRoute({
+    Key? key,
     required NewsModel model,
     required bool isSavedView,
+    required bool isNewsView,
     List<PageRouteInfo>? children,
   }) : super(
           DetailsPageRoute.name,
           args: DetailsPageRouteArgs(
+            key: key,
             model: model,
             isSavedView: isSavedView,
+            isNewsView: isNewsView,
           ),
           initialChildren: children,
         );
@@ -70,17 +76,23 @@ class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
 
 class DetailsPageRouteArgs {
   const DetailsPageRouteArgs({
+    this.key,
     required this.model,
     required this.isSavedView,
+    required this.isNewsView,
   });
+
+  final Key? key;
 
   final NewsModel model;
 
   final bool isSavedView;
 
+  final bool isNewsView;
+
   @override
   String toString() {
-    return 'DetailsPageRouteArgs{model: $model, isSavedView: $isSavedView}';
+    return 'DetailsPageRouteArgs{key: $key, model: $model, isSavedView: $isSavedView, isNewsView: $isNewsView}';
   }
 }
 
