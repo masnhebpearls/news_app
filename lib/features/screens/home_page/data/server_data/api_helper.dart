@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:news_app/core/constant_helper.dart';
+import 'package:news_app/core/constants/constant_helper.dart';
 
 class ApiHelper {
   static BaseOptions opts = BaseOptions(

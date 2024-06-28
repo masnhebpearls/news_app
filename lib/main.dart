@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:news_app/config/routes/routes.dart';
+import 'package:hive/hive.dart';
+import 'package:news_app/core/constants/constant_helper.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.close();
+  Hive.openBox<String>(ConstantHelper.boxName);
+
   runApp(const MyApp());
 }
 
@@ -18,6 +27,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       routerConfig: _appRouter.config(),
       title: 'Flutter Demo',
       theme: ThemeData(

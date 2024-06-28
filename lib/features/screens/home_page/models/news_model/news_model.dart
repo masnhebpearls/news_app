@@ -16,12 +16,14 @@ class NewsModel with _$NewsModel {
     required String title,
     required dynamic description,
     required String url,
-    required dynamic urlToImage,
+    required String urlToImage,
     required String publishedAt,
     required dynamic content,
   }) = _NewsModel;
 
   factory NewsModel.fromJson(Map<String, dynamic> json) => _$NewsModelFromJson(json);
+
+
 }
 
 @freezed
@@ -32,4 +34,7 @@ class Source with _$Source {
   }) = _Source;
 
   factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
+
+
+
 }

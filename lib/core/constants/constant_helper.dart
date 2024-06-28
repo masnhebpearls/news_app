@@ -3,5 +3,7 @@ class ConstantHelper {
 
   static const apiKey ='0429499aa825416e98987393b433a77a';
 
+  static const boxName = 'newsBox';
+
 
 }

@@ -13,7 +13,7 @@ _$NewsModelImpl _$$NewsModelImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       description: json['description'],
       url: json['url'] as String,
-      urlToImage: json['urlToImage'],
+      urlToImage: json['urlToImage'] as String,
       publishedAt: json['publishedAt'] as String,
       content: json['content'],
     );

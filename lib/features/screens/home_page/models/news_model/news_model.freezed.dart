@@ -25,7 +25,7 @@ mixin _$NewsModel {
   String get title => throw _privateConstructorUsedError;
   dynamic get description => throw _privateConstructorUsedError;
   String get url => throw _privateConstructorUsedError;
-  dynamic get urlToImage => throw _privateConstructorUsedError;
+  String get urlToImage => throw _privateConstructorUsedError;
   String get publishedAt => throw _privateConstructorUsedError;
   dynamic get content => throw _privateConstructorUsedError;
 
@@ -46,7 +46,7 @@ abstract class $NewsModelCopyWith<$Res> {
       String title,
       dynamic description,
       String url,
-      dynamic urlToImage,
+      String urlToImage,
       String publishedAt,
       dynamic content});
 
@@ -71,7 +71,7 @@ class _$NewsModelCopyWithImpl<$Res, $Val extends NewsModel>
     Object? title = null,
     Object? description = freezed,
     Object? url = null,
-    Object? urlToImage = freezed,
+    Object? urlToImage = null,
     Object? publishedAt = null,
     Object? content = freezed,
   }) {
@@ -96,10 +96,10 @@ class _$NewsModelCopyWithImpl<$Res, $Val extends NewsModel>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      urlToImage: freezed == urlToImage
+      urlToImage: null == urlToImage
           ? _value.urlToImage
           : urlToImage // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String,
       publishedAt: null == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -134,7 +134,7 @@ abstract class _$$NewsModelImplCopyWith<$Res>
       String title,
       dynamic description,
       String url,
-      dynamic urlToImage,
+      String urlToImage,
       String publishedAt,
       dynamic content});
 
@@ -158,7 +158,7 @@ class __$$NewsModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = freezed,
     Object? url = null,
-    Object? urlToImage = freezed,
+    Object? urlToImage = null,
     Object? publishedAt = null,
     Object? content = freezed,
   }) {
@@ -183,10 +183,10 @@ class __$$NewsModelImplCopyWithImpl<$Res>
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      urlToImage: freezed == urlToImage
+      urlToImage: null == urlToImage
           ? _value.urlToImage
           : urlToImage // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String,
       publishedAt: null == publishedAt
           ? _value.publishedAt
           : publishedAt // ignore: cast_nullable_to_non_nullable
@@ -226,7 +226,7 @@ class _$NewsModelImpl implements _NewsModel {
   @override
   final String url;
   @override
-  final dynamic urlToImage;
+  final String urlToImage;
   @override
   final String publishedAt;
   @override
@@ -248,8 +248,8 @@ class _$NewsModelImpl implements _NewsModel {
             const DeepCollectionEquality()
                 .equals(other.description, description) &&
             (identical(other.url, url) || other.url == url) &&
-            const DeepCollectionEquality()
-                .equals(other.urlToImage, urlToImage) &&
+            (identical(other.urlToImage, urlToImage) ||
+                other.urlToImage == urlToImage) &&
             (identical(other.publishedAt, publishedAt) ||
                 other.publishedAt == publishedAt) &&
             const DeepCollectionEquality().equals(other.content, content));
@@ -264,7 +264,7 @@ class _$NewsModelImpl implements _NewsModel {
       title,
       const DeepCollectionEquality().hash(description),
       url,
-      const DeepCollectionEquality().hash(urlToImage),
+      urlToImage,
       publishedAt,
       const DeepCollectionEquality().hash(content));
 
@@ -289,7 +289,7 @@ abstract class _NewsModel implements NewsModel {
       required final String title,
       required final dynamic description,
       required final String url,
-      required final dynamic urlToImage,
+      required final String urlToImage,
       required final String publishedAt,
       required final dynamic content}) = _$NewsModelImpl;
 
@@ -307,7 +307,7 @@ abstract class _NewsModel implements NewsModel {
   @override
   String get url;
   @override
-  dynamic get urlToImage;
+  String get urlToImage;
   @override
   String get publishedAt;
   @override

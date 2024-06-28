@@ -15,6 +15,16 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    DetailsPageRoute.name: (routeData) {
+      final args = routeData.argsAs<DetailsPageRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: DetailsPage(
+          model: args.model,
+          isSavedView: args.isSavedView,
+        ),
+      );
+    },
     HomeAllNewsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -34,6 +44,44 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [DetailsPage]
+class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
+  DetailsPageRoute({
+    required NewsModel model,
+    required bool isSavedView,
+    List<PageRouteInfo>? children,
+  }) : super(
+          DetailsPageRoute.name,
+          args: DetailsPageRouteArgs(
+            model: model,
+            isSavedView: isSavedView,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'DetailsPageRoute';
+
+  static const PageInfo<DetailsPageRouteArgs> page =
+      PageInfo<DetailsPageRouteArgs>(name);
+}
+
+class DetailsPageRouteArgs {
+  const DetailsPageRouteArgs({
+    required this.model,
+    required this.isSavedView,
+  });
+
+  final NewsModel model;
+
+  final bool isSavedView;
+
+  @override
+  String toString() {
+    return 'DetailsPageRouteArgs{model: $model, isSavedView: $isSavedView}';
+  }
 }
 
 /// generated route for
