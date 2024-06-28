@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:news_app/config/routes/routes.dart';
 import 'package:news_app/features/screens/home_page/models/news_model/news_model.dart';
 
@@ -12,18 +13,21 @@ class NewsCard extends StatefulWidget {
       required this.model,
       required this.isSavedView,
       required this.isNewsView,
-      required this.index});
+      required this.index,
+      required this.hasInternetConnection});
 
   final NewsModel model;
   final bool isSavedView;
   final bool isNewsView;
   final int index;
+  final bool hasInternetConnection;
 
   @override
   State<NewsCard> createState() => _NewsCardState();
 }
 
 class _NewsCardState extends State<NewsCard> {
+
   String getSmallerString() {
     if (widget.model.description.length > 50) {
       String newString = '${widget.model.description.substring(0, 50)}...';
@@ -33,6 +37,7 @@ class _NewsCardState extends State<NewsCard> {
       return newString;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +53,7 @@ class _NewsCardState extends State<NewsCard> {
       child: InkWell(
         onTap: () {
           AutoRouter.of(context).push(DetailsPageRoute(
+            hasInternetConnection: widget.hasInternetConnection,
               model: widget.model,
               isSavedView: widget.isSavedView,
               isNewsView: widget.isNewsView,
@@ -121,8 +127,11 @@ class _NewsCardState extends State<NewsCard> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(width * 0.05),
                         child: FittedBox(
-                            fit: BoxFit.cover,
-                            child: Image.network(widget.model.urlToImage)),
+                          fit: BoxFit.cover,
+                          child: widget.hasInternetConnection
+                              ? Image.network(widget.model.urlToImage)
+                              : Image.asset('images/error.gif'),
+                        ),
                       ),
                     ),
                   ),

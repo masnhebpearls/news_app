@@ -25,6 +25,7 @@ abstract class _$AppRouter extends RootStackRouter {
           isSavedView: args.isSavedView,
           isNewsView: args.isNewsView,
           index: args.index,
+          hasInternetConnection: args.hasInternetConnection,
         ),
       );
     },
@@ -58,6 +59,7 @@ class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
     required bool isSavedView,
     required bool isNewsView,
     required int index,
+    required bool hasInternetConnection,
     List<PageRouteInfo>? children,
   }) : super(
           DetailsPageRoute.name,
@@ -67,6 +69,7 @@ class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
             isSavedView: isSavedView,
             isNewsView: isNewsView,
             index: index,
+            hasInternetConnection: hasInternetConnection,
           ),
           initialChildren: children,
         );
@@ -84,6 +87,7 @@ class DetailsPageRouteArgs {
     required this.isSavedView,
     required this.isNewsView,
     required this.index,
+    required this.hasInternetConnection,
   });
 
   final Key? key;
@@ -96,9 +100,11 @@ class DetailsPageRouteArgs {
 
   final int index;
 
+  final bool hasInternetConnection;
+
   @override
   String toString() {
-    return 'DetailsPageRouteArgs{key: $key, model: $model, isSavedView: $isSavedView, isNewsView: $isNewsView, index: $index}';
+    return 'DetailsPageRouteArgs{key: $key, model: $model, isSavedView: $isSavedView, isNewsView: $isNewsView, index: $index, hasInternetConnection: $hasInternetConnection}';
   }
 }
 

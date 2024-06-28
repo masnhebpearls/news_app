@@ -5,6 +5,8 @@ import 'package:bloc/bloc.dart';
 import 'package:news_app/features/screens/home_page/data/local_data/database_methods.dart';
 import 'package:news_app/features/screens/home_page/data/server_data/api_methods.dart';
 import '../../models/news_model/news_model.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+
 
 part 'news_event.dart';
 
@@ -31,21 +33,28 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
 
   Future<void> apiRequestEvent(
       ApiRequestEvent event, Emitter<NewsState> emit) async {
-    emit(NewsLoadingState());
-    try {
-      final response = await ApiMethods().getData();
-      for (var x in response['articles']) {
-        try {
-          news.add(NewsModel.fromJson(x));
-        } catch (e) {
-          // throw 'error';
+    bool result = await InternetConnection().hasInternetAccess;
+    if (result){
+      emit(NewsLoadingState());
+      try {
+        final response = await ApiMethods().getData();
+        for (var x in response['articles']) {
+          try {
+            news.add(NewsModel.fromJson(x));
+          } catch (e) {
+            // throw 'error';
+          }
         }
+        emit(NewsLoadedState(news: news));
+      } catch (e) {
+        emit(NewsLoadingErrorState());
+        // throw 'error';
       }
-      emit(NewsLoadedState(news: news));
-    } catch (e) {
-      emit(NewsLoadingErrorState());
-      // throw 'error';
     }
+    else{
+      emit(NewsLoadingErrorState());
+    }
+
   }
 
   Future<void> saveNews(

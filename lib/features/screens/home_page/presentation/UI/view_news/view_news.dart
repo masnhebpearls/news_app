@@ -9,19 +9,27 @@ import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.
 import 'package:news_app/features/screens/home_page/presentation/widgets/snack_bar.dart';
 
 @RoutePage()
-class DetailsPage extends StatelessWidget {
-  DetailsPage(
+class DetailsPage extends StatefulWidget {
+  const DetailsPage(
       {super.key,
       required this.model,
       required this.isSavedView,
       required this.isNewsView,
-      required this.index});
+      required this.index,
+      required this.hasInternetConnection
+      });
 
   final bool isSavedView;
   final bool isNewsView;
   final NewsModel model;
   final int index;
+  final bool hasInternetConnection;
 
+  @override
+  State<DetailsPage> createState() => _DetailsPageState();
+}
+
+class _DetailsPageState extends State<DetailsPage> {
   final _scrollController = ScrollController();
 
   @override
@@ -34,23 +42,23 @@ class DetailsPage extends StatelessWidget {
           BlocConsumer<NewsBloc, NewsState>(
             listener: (c, state) {
               if (state.runtimeType == NewsSaveState) {
-                showSnackBar("Saved Successfully", model, c, false, 0);
+                showSnackBar("Saved Successfully", widget.model, c, false, 0);
               }
               if (state.runtimeType == NewsDeletedState) {
-                showSnackBar("Removed from saved", model, c, true, index);
+                showSnackBar("Removed from saved", widget.model, c, true, widget.index);
               }
               // TODO: implement listener
             },
             builder: (ctx, state) {
               return IconButton(
-                  onPressed: !ctx.read<NewsBloc>().hiveSavedNews.contains(model)
+                  onPressed: !ctx.read<NewsBloc>().hiveSavedNews.contains(widget.model)
                       ? () => ctx
                           .read<NewsBloc>()
-                          .add(SaveButtonPressedEvent(model: model, index: 0))
+                          .add(SaveButtonPressedEvent(model: widget.model, index: 0))
                       : () => ctx
                           .read<NewsBloc>()
-                          .add(UnSaveNewsEvent(key: model.publishedAt)),
-                  icon: ctx.read<NewsBloc>().hiveSavedNews.contains(model)
+                          .add(UnSaveNewsEvent(key: widget.model.publishedAt)),
+                  icon: ctx.read<NewsBloc>().hiveSavedNews.contains(widget.model)
                       ? const Icon(FontAwesomeIcons.solidHeart)
                       : const Icon(FontAwesomeIcons.heart));
             },
@@ -68,7 +76,7 @@ class DetailsPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(
                   width * 0.05, height * 0.0125, width * 0.05, 0),
               child: AutoSizeText(
-                model.title,
+                widget.model.title,
                 style: tittleTextInBlogCard,
                 maxLines: 7,
                 minFontSize: 16,
@@ -81,13 +89,13 @@ class DetailsPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(left: width * 0.05),
               child: Hero(
-                tag: isNewsView
-                    ? !isSavedView
-                        ? '${model.url} news'
-                        : "news saved ${model.url}"
-                    : !isSavedView
-                        ? '${model.url} saved'
-                        : "saved saved ${model.url}",
+                tag: widget.isNewsView
+                    ? !widget.isSavedView
+                        ? '${widget.model.url} news'
+                        : "news saved ${widget.model.url}"
+                    : !widget.isSavedView
+                        ? '${widget.model.url} saved'
+                        : "saved saved ${widget.model.url}",
                 child: SizedBox(
                   width: width * 0.9,
                   height: height * 0.3,
@@ -95,7 +103,8 @@ class DetailsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(width * 0.075),
                     child: FittedBox(
                         fit: BoxFit.cover,
-                        child: Image.network(model.urlToImage)),
+                        child: widget.hasInternetConnection ? Image.network(widget.model.urlToImage): Image.asset('images/error.gif')
+                    ),
                   ),
                 ),
               ),
@@ -113,7 +122,7 @@ class DetailsPage extends StatelessWidget {
                   child: Scrollbar(
                     controller: _scrollController,
                     child: SingleChildScrollView(
-                      child: Text(model.content),
+                      child: Text(widget.model.content),
                     ),
                   ),
                 ),

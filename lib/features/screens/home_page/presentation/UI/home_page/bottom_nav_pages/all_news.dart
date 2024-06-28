@@ -31,7 +31,16 @@ class _HomeAllNewsState extends State<HomeAllNews> {
         builder: (ctx, state) {
           switch (state) {
             case NewsLoadingErrorState():
-              return Container();
+              return Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width*0.9,
+                  height: MediaQuery.of(context).size.height*0.5,
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: Image.asset('images/no_data.gif'),
+                  ),
+                ),
+              );
 
             case NewsLoadingState():
               return const Center(
