@@ -63,6 +63,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           NewsModel news = NewsModel.fromJson(decodedJson);
           hiveSavedNews.add(news);
         }
+        hiveSavedNews.sort((a,b)=> a.publishedAt.compareTo(b.publishedAt));
         emit(SavedNewsLoadedState(savedNews: hiveSavedNews));
       } else {
         emit(NoNewsSavedState());
