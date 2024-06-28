@@ -24,6 +24,7 @@ abstract class _$AppRouter extends RootStackRouter {
           model: args.model,
           isSavedView: args.isSavedView,
           isNewsView: args.isNewsView,
+          index: args.index,
         ),
       );
     },
@@ -56,6 +57,7 @@ class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
     required NewsModel model,
     required bool isSavedView,
     required bool isNewsView,
+    required int index,
     List<PageRouteInfo>? children,
   }) : super(
           DetailsPageRoute.name,
@@ -64,6 +66,7 @@ class DetailsPageRoute extends PageRouteInfo<DetailsPageRouteArgs> {
             model: model,
             isSavedView: isSavedView,
             isNewsView: isNewsView,
+            index: index,
           ),
           initialChildren: children,
         );
@@ -80,6 +83,7 @@ class DetailsPageRouteArgs {
     required this.model,
     required this.isSavedView,
     required this.isNewsView,
+    required this.index,
   });
 
   final Key? key;
@@ -90,9 +94,11 @@ class DetailsPageRouteArgs {
 
   final bool isNewsView;
 
+  final int index;
+
   @override
   String toString() {
-    return 'DetailsPageRouteArgs{key: $key, model: $model, isSavedView: $isSavedView, isNewsView: $isNewsView}';
+    return 'DetailsPageRouteArgs{key: $key, model: $model, isSavedView: $isSavedView, isNewsView: $isNewsView, index: $index}';
   }
 }
 

@@ -11,11 +11,11 @@ _$NewsModelImpl _$$NewsModelImplFromJson(Map<String, dynamic> json) =>
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
       author: json['author'] as String,
       title: json['title'] as String,
-      description: json['description'],
+      description: json['description'] as String,
       url: json['url'] as String,
       urlToImage: json['urlToImage'] as String,
       publishedAt: json['publishedAt'] as String,
-      content: json['content'],
+      content: json['content'] as String,
     );
 
 Map<String, dynamic> _$$NewsModelImplToJson(_$NewsModelImpl instance) =>
@@ -31,7 +31,7 @@ Map<String, dynamic> _$$NewsModelImplToJson(_$NewsModelImpl instance) =>
     };
 
 _$SourceImpl _$$SourceImplFromJson(Map<String, dynamic> json) => _$SourceImpl(
-      id: json['id'] as String,
+      id: json['id'],
       name: json['name'] as String,
     );
 

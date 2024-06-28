@@ -50,7 +50,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     final variable = event.model.toJson();
     final encodedJson = jsonEncode(variable);
     DatabaseMethods().storeData(encodedJson, event.model.publishedAt);
-    hiveSavedNews.add(event.model);
+    hiveSavedNews.insert(event.index, event.model);
     emit(NewsSaveState(savedList: hiveSavedNews));
   }
 

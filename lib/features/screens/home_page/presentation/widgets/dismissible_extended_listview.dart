@@ -30,13 +30,14 @@ class DismissibleExtendedListview extends StatelessWidget {
                       .hiveSavedNews
                       .contains(model[index]);
                   return Dismissible(
-                    key: ValueKey<int>(index),
+                    key: ValueKey<int>(model[index].hashCode),
                     onDismissed: (direction){
                       context.read<NewsBloc>().add(UnSaveNewsEvent(key: model[index].publishedAt));
-                      showSnackBar("Removed from saved List", model[index],ctx, true);
+                      showSnackBar("Removed from saved List", model[index],ctx, true, index);
                     },
 
                     child: NewsCard(
+                      index: index,
                       isNewsView: isNewsView,
                       model: model[index],
                       isSavedView: isSavedView,

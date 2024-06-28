@@ -11,11 +11,14 @@ class NewsCard extends StatefulWidget {
       {super.key,
       required this.model,
       required this.isSavedView,
-      required this.isNewsView});
+      required this.isNewsView,
+      required this.index
+      });
 
   final NewsModel model;
   final bool isSavedView;
   final bool isNewsView;
+  final int index;
 
   @override
   State<NewsCard> createState() => _NewsCardState();
@@ -23,11 +26,11 @@ class NewsCard extends StatefulWidget {
 
 class _NewsCardState extends State<NewsCard> {
   String getSmallerString() {
-    if (widget.model.description!.length > 50) {
-      String newString = '${widget.model.description!.substring(0, 50)}...';
+    if (widget.model.description.length > 50) {
+      String newString = '${widget.model.description.substring(0, 50)}...';
       return newString;
     } else {
-      String newString = widget.model.description!;
+      String newString = widget.model.description;
       return newString;
     }
   }
@@ -48,7 +51,9 @@ class _NewsCardState extends State<NewsCard> {
           AutoRouter.of(context).push(DetailsPageRoute(
               model: widget.model,
               isSavedView: widget.isSavedView,
-              isNewsView: widget.isNewsView));
+              isNewsView: widget.isNewsView,
+              index: widget.index
+          ));
         },
         child: Card(
           shape: RoundedRectangleBorder(
@@ -91,7 +96,7 @@ class _NewsCardState extends State<NewsCard> {
                         width: width * 0.45,
                         height: height * 0.065,
                         child: AutoSizeText(
-                          widget.model.description!,
+                          widget.model.description,
                           style: textInBlogCard,
                           maxLines: 4,
                           minFontSize: 12,

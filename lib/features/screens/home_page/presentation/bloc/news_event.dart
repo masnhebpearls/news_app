@@ -11,8 +11,9 @@ class ApiRequestEvent extends NewsEvent {}
 
 class SaveButtonPressedEvent extends NewsEvent {
   final NewsModel model;
+  final int index;
 
-  SaveButtonPressedEvent({required this.model});
+  SaveButtonPressedEvent({required this.model, required this.index});
 
 }
 

@@ -30,6 +30,7 @@ class ExtendedListViewBuilder extends StatelessWidget {
                     isNewsView: isNewsView,
                     model: model[index],
                     isSavedView: isSavedView,
+                    index: index,
                   );
                 },
               );
