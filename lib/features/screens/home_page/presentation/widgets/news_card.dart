@@ -12,8 +12,7 @@ class NewsCard extends StatefulWidget {
       required this.model,
       required this.isSavedView,
       required this.isNewsView,
-      required this.index
-      });
+      required this.index});
 
   final NewsModel model;
   final bool isSavedView;
@@ -52,8 +51,7 @@ class _NewsCardState extends State<NewsCard> {
               model: widget.model,
               isSavedView: widget.isSavedView,
               isNewsView: widget.isNewsView,
-              index: widget.index
-          ));
+              index: widget.index));
         },
         child: Card(
           shape: RoundedRectangleBorder(

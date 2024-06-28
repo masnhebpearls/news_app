@@ -5,7 +5,8 @@ import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.
 
 import '../../models/news_model/news_model.dart';
 
-void showSnackBar(String message,NewsModel model ,BuildContext context, bool showAction, int index) {
+void showSnackBar(String message, NewsModel model, BuildContext context,
+    bool showAction, int index) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: Colors.tealAccent,
@@ -14,13 +15,17 @@ void showSnackBar(String message,NewsModel model ,BuildContext context, bool sho
         message,
         style: textInSnackBar,
       ),
-       action: showAction ? SnackBarAction(
-        onPressed: (){
-          context.read<NewsBloc>().add(SaveButtonPressedEvent(model: model, index: index));
-        },
-        label: "Undo",
-         textColor: Colors.black,
-      ): null,
+      action: showAction
+          ? SnackBarAction(
+              onPressed: () {
+                context
+                    .read<NewsBloc>()
+                    .add(SaveButtonPressedEvent(model: model, index: index));
+              },
+              label: "Undo",
+              textColor: Colors.black,
+            )
+          : null,
     ),
   );
 }

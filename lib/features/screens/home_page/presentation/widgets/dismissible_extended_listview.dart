@@ -7,8 +7,6 @@ import '../../../../../config/themes/styles.dart';
 import '../bloc/news_bloc.dart';
 import 'news_card.dart';
 
-
-
 ///Returns a ListView.builder with dismissible as it's child
 class DismissibleExtendedListview extends StatelessWidget {
   const DismissibleExtendedListview(
@@ -25,17 +23,17 @@ class DismissibleExtendedListview extends StatelessWidget {
               return ListView.builder(
                 itemCount: model.length,
                 itemBuilder: (context, index) {
-                  final bool isSavedView = ctx
-                      .read<NewsBloc>()
-                      .hiveSavedNews
-                      .contains(model[index]);
+                  final bool isSavedView =
+                      ctx.read<NewsBloc>().hiveSavedNews.contains(model[index]);
                   return Dismissible(
                     key: ValueKey<int>(model[index].hashCode),
-                    onDismissed: (direction){
-                      context.read<NewsBloc>().add(UnSaveNewsEvent(key: model[index].publishedAt));
-                      showSnackBar("Removed from saved List", model[index],ctx, true, index);
+                    onDismissed: (direction) {
+                      context
+                          .read<NewsBloc>()
+                          .add(UnSaveNewsEvent(key: model[index].publishedAt));
+                      showSnackBar("Removed from saved List", model[index], ctx,
+                          true, index);
                     },
-
                     child: NewsCard(
                       index: index,
                       isNewsView: isNewsView,

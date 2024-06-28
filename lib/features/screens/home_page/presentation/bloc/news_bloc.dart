@@ -23,12 +23,14 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   }
 
 // Assuming that NewsModel, ApiMethods, and DatabaseMethods are defined elsewhere
-  Future<void> initializeEvent(InitializeEvent event, Emitter<NewsState> emit) async {
+  Future<void> initializeEvent(
+      InitializeEvent event, Emitter<NewsState> emit) async {
     await loadSavedNews(LoadSavedNewsEvent(), emit);
     await apiRequestEvent(ApiRequestEvent(), emit);
   }
 
-  Future<void> apiRequestEvent(ApiRequestEvent event, Emitter<NewsState> emit) async {
+  Future<void> apiRequestEvent(
+      ApiRequestEvent event, Emitter<NewsState> emit) async {
     emit(NewsLoadingState());
     try {
       final response = await ApiMethods().getData();
@@ -46,7 +48,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     }
   }
 
-  Future<void> saveNews(SaveButtonPressedEvent event, Emitter<NewsState> emit) async {
+  Future<void> saveNews(
+      SaveButtonPressedEvent event, Emitter<NewsState> emit) async {
     final variable = event.model.toJson();
     final encodedJson = jsonEncode(variable);
     DatabaseMethods().storeData(encodedJson, event.model.publishedAt);
@@ -54,7 +57,8 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     emit(NewsSaveState(savedList: hiveSavedNews));
   }
 
-  Future<void> loadSavedNews(LoadSavedNewsEvent event, Emitter<NewsState> emit) async {
+  Future<void> loadSavedNews(
+      LoadSavedNewsEvent event, Emitter<NewsState> emit) async {
     try {
       final listOfSavedStrings = DatabaseMethods().getStoredData();
       if (listOfSavedStrings.isNotEmpty) {
@@ -63,7 +67,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           NewsModel news = NewsModel.fromJson(decodedJson);
           hiveSavedNews.add(news);
         }
-        hiveSavedNews.sort((a,b)=> a.publishedAt.compareTo(b.publishedAt));
+        hiveSavedNews.sort((a, b) => a.publishedAt.compareTo(b.publishedAt));
         emit(SavedNewsLoadedState(savedNews: hiveSavedNews));
       } else {
         emit(NoNewsSavedState());
@@ -78,6 +82,4 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
     hiveSavedNews.removeWhere((element) => element.publishedAt == event.key);
     emit(NewsDeletedState(savedList: hiveSavedNews));
   }
-
-
 }

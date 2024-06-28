@@ -19,7 +19,10 @@ class _HomeAllNewsState extends State<HomeAllNews> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-            child: Text("Top headlines", style: tittleTextInBlogCard,)),
+            child: Text(
+          "Top headlines",
+          style: tittleTextInBlogCard,
+        )),
       ),
       body: BlocConsumer<NewsBloc, NewsState>(
         listener: (context, state) {
@@ -36,12 +39,17 @@ class _HomeAllNewsState extends State<HomeAllNews> {
               );
 
             case NewsLoadedState(news: var news):
-              return ExtendedListViewBuilder(model: news, isNewsView: true,);
+              return ExtendedListViewBuilder(
+                model: news,
+                isNewsView: true,
+              );
 
             default:
-              return ExtendedListViewBuilder(model: ctx.read<NewsBloc>().news, isNewsView: true,);
+              return ExtendedListViewBuilder(
+                model: ctx.read<NewsBloc>().news,
+                isNewsView: true,
+              );
           }
-
         },
       ),
     );

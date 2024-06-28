@@ -30,18 +30,26 @@ class _LocalSavedNewsState extends State<LocalSavedNews> {
       body: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
         switch (state) {
           case NewsSaveState(savedList: var savedList):
-            return DismissibleExtendedListview(model: savedList, isNewsView: false,);
+            return DismissibleExtendedListview(
+              model: savedList,
+              isNewsView: false,
+            );
 
           case NewsDeletedState(savedList: var savedList):
-            return DismissibleExtendedListview(model: savedList, isNewsView: false,);
+            return DismissibleExtendedListview(
+              model: savedList,
+              isNewsView: false,
+            );
 
           default:
-            final List<NewsModel> savedList = context.read<NewsBloc>().hiveSavedNews;
-            return DismissibleExtendedListview(model: savedList, isNewsView: false,);
+            final List<NewsModel> savedList =
+                context.read<NewsBloc>().hiveSavedNews;
+            return DismissibleExtendedListview(
+              model: savedList,
+              isNewsView: false,
+            );
         }
-
       }),
     );
   }
 }
-
