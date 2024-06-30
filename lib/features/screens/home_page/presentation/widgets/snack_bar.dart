@@ -5,7 +5,7 @@ import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.
 
 import '../../models/news_model/news_model.dart';
 
-void showSnackBar(String message, NewsModel model, BuildContext context,
+void showSnackBar(String message, NewsModel? model, BuildContext context,
     bool showAction, int index) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
