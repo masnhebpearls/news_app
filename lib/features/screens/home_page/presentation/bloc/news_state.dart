@@ -1,38 +1,55 @@
 part of 'news_bloc.dart';
 
-sealed class NewsState {}
+sealed class NewsState {
+  final bool hasInternetConnection;
 
-final class NewsInitial extends NewsState {}
+  NewsState({required this.hasInternetConnection});
+}
 
-class NewsLoadingState extends NewsState {}
+final class NewsInitial extends NewsState {
+  NewsInitial({required super.hasInternetConnection});
+}
+
+class NewsLoadingState extends NewsState {
+  NewsLoadingState({required super.hasInternetConnection});
+}
 
 class NewsLoadedState extends NewsState {
   final List<NewsModel> news;
 
 
-  NewsLoadedState({required this.news});
+  NewsLoadedState({required this.news, required super.hasInternetConnection});
 }
 
-class NewsLoadingErrorState extends NewsState {}
+class NewsLoadingErrorState extends NewsState {
+  final String message;
 
-class SavedNewsErrorState extends NewsState {}
+  NewsLoadingErrorState({required this.message, required super.hasInternetConnection});
+
+}
+
+class SavedNewsErrorState extends NewsState {
+  SavedNewsErrorState({required super.hasInternetConnection});
+}
 
 class SavedNewsLoadedState extends NewsState {
   final List<NewsModel> savedNews;
 
-  SavedNewsLoadedState({required this.savedNews});
+  SavedNewsLoadedState({required this.savedNews, required super.hasInternetConnection});
 }
 
 class NewsDeletedState extends NewsState {
   final List<NewsModel> savedList;
 
-  NewsDeletedState({required this.savedList});
+  NewsDeletedState({required this.savedList, required super.hasInternetConnection});
 }
 
-class NoNewsSavedState extends NewsState {}
+class NoNewsSavedState extends NewsState {
+  NoNewsSavedState({required super.hasInternetConnection});
+}
 
 class NewsSaveState extends NewsState {
   final List<NewsModel> savedList;
 
-  NewsSaveState({required this.savedList});
+  NewsSaveState({required this.savedList, required super.hasInternetConnection});
 }
