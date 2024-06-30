@@ -49,6 +49,8 @@ dependencies:
   hive_flutter:
   font_awesome_flutter:
   internet_connection_checker_plus: ^2.5.0
+  liquid_pull_to_refresh: ^3.0.1
+
 
 dev_dependencies:
   auto_route_generator:
