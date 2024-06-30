@@ -13,10 +13,12 @@ class DismissibleExtendedListview extends StatefulWidget {
     super.key,
     required this.model,
     required this.isNewsView,
+    required this.hasInternetConnection
   });
 
   final List<NewsModel> model;
   final bool isNewsView;
+  final bool hasInternetConnection;
 
   @override
   DismissibleExtendedListviewState createState() =>
@@ -26,33 +28,13 @@ class DismissibleExtendedListview extends StatefulWidget {
 // Convert the private state class to a public one by removing the underscore
 class DismissibleExtendedListviewState
     extends State<DismissibleExtendedListview> {
-  bool? hasInternetConnection;
 
   final GlobalKey<LiquidPullToRefreshState> _refreshIndicatorKey =
       GlobalKey<LiquidPullToRefreshState>();
 
-  @override
-  void initState() {
-    super.initState();
-    _checkInternetConnection();
-  }
-
-  Future<void> _checkInternetConnection() async {
-    // Perform the internet connectivity check and update state
-    final hasInternet = await InternetConnection().hasInternetAccess;
-    setState(() {
-      hasInternetConnection = hasInternet;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    if (hasInternetConnection == null) {
-      // Show a loading indicator while checking for internet connectivity
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
 
     return widget.model.isNotEmpty
         ? BlocBuilder<NewsBloc, NewsState>(
@@ -60,8 +42,7 @@ class DismissibleExtendedListviewState
               return LiquidPullToRefresh(
                 key: _refreshIndicatorKey,
                 onRefresh: () async {
-                  _checkInternetConnection();
-                  context.read<NewsBloc>().add(ApiRequestEvent());
+                  context.read<NewsBloc>().add(CheckInternetConnection());
                 },
                 child: ListView.builder(
                   itemCount: widget.model.length,
@@ -80,7 +61,7 @@ class DismissibleExtendedListviewState
                             widget.model[index], ctx, true, index);
                       },
                       child: NewsCard(
-                        hasInternetConnection: hasInternetConnection!,
+                        hasInternetConnection: widget.hasInternetConnection,
                         index: index,
                         isNewsView: widget.isNewsView,
                         model: widget.model[index],
