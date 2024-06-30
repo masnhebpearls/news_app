@@ -2,6 +2,8 @@ part of 'news_bloc.dart';
 
 sealed class NewsEvent {}
 
+class CheckInternetConnection extends NewsEvent{}
+
 class InitializeEvent extends NewsEvent {}
 
 class ApiRequestEvent extends NewsEvent {}
