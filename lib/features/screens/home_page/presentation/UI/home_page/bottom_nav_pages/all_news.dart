@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/themes/styles.dart';
 import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
+import 'package:news_app/features/screens/home_page/presentation/widgets/snack_bar.dart';
 import '../../../widgets/extendedListViewBuilder.dart';
 
 @RoutePage()
@@ -26,19 +27,38 @@ class _HomeAllNewsState extends State<HomeAllNews> {
       ),
       body: BlocConsumer<NewsBloc, NewsState>(
         listener: (context, state) {
+          if (state is NewsLoadingErrorState){
+            showSnackBar(state.message, null, context, false, 0);
+          }
           // TODO: implement listener
         },
         builder: (ctx, state) {
+          print("initial state is ${state.runtimeType}");
           switch (state) {
             case NewsLoadingErrorState():
               return Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width*0.9,
-                  height: MediaQuery.of(context).size.height*0.5,
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: Image.asset('images/no_data.gif'),
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      child: FittedBox(
+                        fit: BoxFit.cover,
+                        child: Image.asset('images/no_data.gif'),
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        context.read<NewsBloc>().add(ApiRequestEvent());
+                      },
+                      child: Text(
+                        "Refresh",
+                        style: tittleTextInBlogCard,
+                      ),
+                    )
+                  ],
                 ),
               );
 
