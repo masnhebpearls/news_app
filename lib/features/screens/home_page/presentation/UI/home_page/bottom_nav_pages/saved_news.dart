@@ -7,7 +7,7 @@ import 'package:news_app/features/screens/home_page/models/news_model/news_model
 import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
 import 'package:news_app/features/screens/home_page/presentation/widgets/dismissible_extended_listview.dart';
 
-import '../../../widgets/extendedListViewBuilder.dart';
+import '../../../widgets/extended_list_view_builder.dart';
 
 @RoutePage()
 class LocalSavedNews extends StatefulWidget {
@@ -33,15 +33,18 @@ class _LocalSavedNewsState extends State<LocalSavedNews> {
         )),
       ),
       body: BlocBuilder<NewsBloc, NewsState>(builder: (context, state) {
+        print("saved state is $state");
         switch (state) {
-          case NewsSaveState(savedList: var savedList):
+          case NewsSaveState(savedList: var savedList, hasInternetConnection: bool hasInternetConnection):
             return DismissibleExtendedListview(
+              hasInternetConnection: hasInternetConnection,
               model: savedList,
               isNewsView: false,
             );
 
-          case NewsDeletedState(savedList: var savedList):
+          case NewsDeletedState(savedList: var savedList, hasInternetConnection: bool hasInternetConnection):
             return DismissibleExtendedListview(
+              hasInternetConnection: hasInternetConnection,
               model: savedList,
               isNewsView: false,
             );
@@ -50,6 +53,7 @@ class _LocalSavedNewsState extends State<LocalSavedNews> {
             final List<NewsModel> savedList =
                 context.read<NewsBloc>().hiveSavedNews;
             return DismissibleExtendedListview(
+              hasInternetConnection: state.hasInternetConnection,
               model: savedList,
               isNewsView: false,
             );
