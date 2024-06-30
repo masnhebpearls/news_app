@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/config/themes/styles.dart';
 import 'package:news_app/features/screens/home_page/presentation/bloc/news_bloc.dart';
 import 'package:news_app/features/screens/home_page/presentation/widgets/snack_bar.dart';
-import '../../../widgets/extendedListViewBuilder.dart';
+import '../../../widgets/extended_list_view_builder.dart';
 
 @RoutePage()
 class HomeAllNews extends StatefulWidget {
@@ -33,7 +33,6 @@ class _HomeAllNewsState extends State<HomeAllNews> {
           // TODO: implement listener
         },
         builder: (ctx, state) {
-          print("initial state is ${state.runtimeType}");
           switch (state) {
             case NewsLoadingErrorState():
               return Center(
@@ -49,9 +48,17 @@ class _HomeAllNewsState extends State<HomeAllNews> {
                         child: Image.asset('images/no_data.gif'),
                       ),
                     ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        shadowColor: Colors.tealAccent,
+
+                      ),
                       onPressed: () {
-                        context.read<NewsBloc>().add(ApiRequestEvent());
+                        context.read<NewsBloc>().add(CheckInternetConnection());
                       },
                       child: Text(
                         "Refresh",
@@ -67,14 +74,16 @@ class _HomeAllNewsState extends State<HomeAllNews> {
                 child: CircularProgressIndicator(),
               );
 
-            case NewsLoadedState(news: var news):
+            case NewsLoadedState(news: var news, hasInternetConnection: bool hasInternetConnection):
               return ExtendedListViewBuilder(
+                hasInternetConnection: hasInternetConnection,
                 model: news,
                 isNewsView: true,
               );
 
             default:
               return ExtendedListViewBuilder(
+                hasInternetConnection: state.hasInternetConnection,
                 model: ctx.read<NewsBloc>().news,
                 isNewsView: true,
               );
